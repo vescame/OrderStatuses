@@ -1,7 +1,6 @@
 plugins {
     java
     kotlin("jvm") version Dependency.Version.kotlin
-    id("org.springframework.boot") version Dependency.Version.springBootPlugin
     id("io.spring.dependency-management") version Dependency.Version.springDependencyManagementPlugin
 }
 

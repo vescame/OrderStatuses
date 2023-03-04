@@ -1,8 +1,8 @@
 plugins {
-    application
+    id("org.springframework.boot") version Dependency.Version.springBootPlugin
 }
 
-application {
+springBoot {
     mainClass.set("vescame.orderstatuses.App")
 }
 
