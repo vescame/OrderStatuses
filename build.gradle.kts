@@ -34,6 +34,7 @@ subprojects {
     dependencies {
         implementation(Dependency.springBootStarter)
         testImplementation(Dependency.springBootStarterTest)
+        testImplementation(Dependency.junitJupiter)
     }
 
     tasks.withType<Test> {
