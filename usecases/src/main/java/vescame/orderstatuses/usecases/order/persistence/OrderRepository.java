@@ -5,7 +5,9 @@ import vescame.orderstatuses.entity.order.OrderStatus;
 
 public interface OrderRepository {
 
+    Order getOrderById(Long orderId);
+
     void updateOrderStatus(Long orderId, OrderStatus status);
     boolean existsOrderById(Long orderId);
-    void createOrder(Order order);
+    Order createOrder(Order order);
 }

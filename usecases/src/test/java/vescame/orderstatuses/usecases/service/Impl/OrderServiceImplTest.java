@@ -1,16 +1,21 @@
 package vescame.orderstatuses.usecases.service.Impl;
 
 import org.junit.jupiter.api.Test;
+import vescame.orderstatuses.entity.item.Item;
 import vescame.orderstatuses.entity.order.Order;
 import vescame.orderstatuses.entity.order.OrderLine;
 import vescame.orderstatuses.entity.order.OrderStatus;
 import vescame.orderstatuses.usecases.item.ItemValidator;
 import vescame.orderstatuses.usecases.item.exception.InvalidItemException;
+import vescame.orderstatuses.usecases.notification.Notifier;
 import vescame.orderstatuses.usecases.order.OrderValidator;
 import vescame.orderstatuses.usecases.order.exception.InvalidOrderException;
 import vescame.orderstatuses.usecases.order.persistence.OrderRepository;
+import java.math.BigDecimal;
 import java.util.List;
+import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -25,7 +30,8 @@ class OrderServiceImplTest {
     private final ItemValidator itemValidator = mock(ItemValidator.class);
     private final OrderValidator orderValidator = mock(OrderValidator.class);
     private final OrderRepository repository = mock(OrderRepository.class);
-    private final OrderServiceImpl service = new OrderServiceImpl(repository, orderValidator, itemValidator);
+    private final Notifier notifier = mock(Notifier.class);
+    private final OrderServiceImpl service = new OrderServiceImpl(repository, orderValidator, itemValidator, notifier);
 
     @Test
     public void shouldUpdateOrderStatus() {
@@ -57,12 +63,18 @@ class OrderServiceImplTest {
     public void shouldCreateOrder() {
         var customerId = 42L;
         var itemId = 1L;
+        var orderId = 1L;
         var orderLines = List.of(new OrderLine(itemId, 1));
-        var order = new Order(customerId, orderLines);
+        var order = new Order(customerId, orderLines, PLACED);
+
+        var expected = new Order(orderId, customerId, orderLines, PLACED);
 
         when(itemValidator.isItemValid(itemId)).thenReturn(true);
+        when(repository.createOrder(order)).thenReturn(expected);
 
-        assertDoesNotThrow(() -> service.createNewOrder(customerId, orderLines));
+        var actual = assertDoesNotThrow(() -> service.createNewOrder(customerId, orderLines));
+
+        assertEquals(orderId, actual);
 
         verify(itemValidator, times(1)).isItemValid(itemId);
         verify(repository, times(1)).createOrder(order);
@@ -80,5 +92,26 @@ class OrderServiceImplTest {
 
         verify(itemValidator, times(1)).isItemValid(itemId);
         verify(repository, never()).createOrder(any());
+    }
+
+    @Test
+    public void shouldGetOrderById() {
+        var orderId = 1L;
+        var customerId = 42L;
+        var itemId = 12L;
+        var item = new Item(itemId, "item name", "item details", BigDecimal.TEN);
+        var orderLines = List.of(new OrderLine(1L, item, 1));
+
+        var expected = new Order(orderId, customerId, orderLines, BigDecimal.TEN, PLACED, now(), now());
+
+        when(orderValidator.isOrderValid(orderId)).thenReturn(true);
+        when(repository.getOrderById(orderId)).thenReturn(expected);
+
+        var actual = assertDoesNotThrow(() -> service.getOrderById(orderId));
+
+        assertEquals(expected, actual);
+
+        verify(orderValidator, times(1)).isOrderValid(orderId);
+        verify(repository, times(1)).getOrderById(orderId);
     }
 }

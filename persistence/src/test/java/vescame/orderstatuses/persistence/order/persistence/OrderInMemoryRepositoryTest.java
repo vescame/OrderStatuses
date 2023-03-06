@@ -1,10 +1,19 @@
-package vescame.orderstatuses.persistence.order;
+package vescame.orderstatuses.persistence.order.persistence;
 
 import org.junit.jupiter.api.Test;
+import vescame.orderstatuses.entity.order.Order;
+import vescame.orderstatuses.persistence.order.OrderEntity;
 import vescame.orderstatuses.persistence.storage.map.HashMapLongRawStorage;
+import vescame.orderstatuses.usecases.order.calculator.OrderTotalAmountCalculator;
+import vescame.orderstatuses.usecases.order.persistence.OrderLineRepository;
+
+import java.math.BigDecimal;
+import java.util.Collections;
+
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static vescame.orderstatuses.entity.order.OrderStatus.CONFIRMED;
@@ -13,22 +22,42 @@ import static vescame.orderstatuses.entity.order.OrderStatus.PLACED;
 class OrderInMemoryRepositoryTest {
 
     private final HashMapLongRawStorage<OrderEntity> storage = mock(HashMapLongRawStorage.class);
-    private final OrderInMemoryRepository repository = new OrderInMemoryRepository(storage);
+    private final OrderTotalAmountCalculator orderTotalAmountCalculator = mock(OrderTotalAmountCalculator.class);
+    private final OrderLineRepository orderLineRepository = mock(OrderLineRepository.class);
+    private final OrderInMemoryRepository repository = new OrderInMemoryRepository(
+            storage,
+            orderTotalAmountCalculator,
+            orderLineRepository
+    );
 
     @Test
     public void shouldGetOrder() {
+        var customerId = 10L;
         var orderId = 1L;
         var entity = new OrderEntity(
                 orderId,
+                customerId,
                 PLACED,
                 now()
         );
+
+        var expected = new Order(
+                orderId,
+                customerId,
+                Collections.emptyList(),
+                BigDecimal.ZERO,
+                PLACED,
+                entity.getCreateDate(),
+                entity.getUpdateDate()
+        );
+
+        when(orderTotalAmountCalculator.calculateTotal(any())).thenReturn(BigDecimal.ZERO);
 
         when(storage.getById(orderId)).thenReturn(entity);
 
         var actual = repository.getOrderById(orderId);
 
-        assertEquals(entity, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -42,20 +71,30 @@ class OrderInMemoryRepositoryTest {
 
     @Test
     public void shouldUpdateOrder() {
+        var customerId = 14L;
         var orderId = 3L;
         var createDate = now();
-        var expected = new OrderEntity(
-                orderId,
-                CONFIRMED,
-                createDate
-        );
+
         var entity = new OrderEntity(
                 orderId,
+                customerId,
                 PLACED,
                 createDate
         );
 
-        when(storage.getById(orderId)).thenReturn(entity).thenReturn(expected);
+        var expected = new Order(
+                orderId,
+                customerId,
+                Collections.emptyList(),
+                BigDecimal.ZERO,
+                PLACED,
+                entity.getCreateDate(),
+                entity.getUpdateDate()
+        );
+
+        when(orderTotalAmountCalculator.calculateTotal(any())).thenReturn(BigDecimal.ZERO);
+
+        when(storage.getById(orderId)).thenReturn(entity).thenReturn(entity);
 
         repository.updateOrderStatus(orderId, CONFIRMED);
 

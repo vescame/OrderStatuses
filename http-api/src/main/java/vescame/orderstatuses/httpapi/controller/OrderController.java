@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
+import vescame.orderstatuses.entity.order.Order;
 import vescame.orderstatuses.entity.order.OrderLine;
+import vescame.orderstatuses.httpapi.item.ItemResponse;
 import vescame.orderstatuses.httpapi.order.request.UpdateOrderStatusRequest;
 import vescame.orderstatuses.httpapi.order.request.CreateOrderRequest;
+import vescame.orderstatuses.httpapi.order.response.OrderLineResponse;
+import vescame.orderstatuses.httpapi.order.response.OrderResponse;
 import vescame.orderstatuses.usecases.item.exception.InvalidItemException;
 import vescame.orderstatuses.usecases.order.exception.InvalidOrderException;
 import vescame.orderstatuses.usecases.service.OrderService;
@@ -33,20 +38,44 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
-        orderService.createNewOrder(
+    public ResponseEntity<Long> createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
+        var orderId = orderService.createNewOrder(
                 createOrderRequest.customerId(),
                 createOrderRequest.orderLines()
                         .stream()
                         .map(orderLine -> new OrderLine(orderLine.itemId(), orderLine.quantity()))
                         .toList()
         );
+
+        return ResponseEntity.ok(orderId);
     }
 
     @PutMapping("/{orderId}/status")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateOrderStatus(@PathVariable Long orderId, @RequestBody UpdateOrderStatusRequest orderStatus) {
         orderService.updateStatus(orderId, orderStatus.status());
+    }
+
+
+    @GetMapping("/{orderId}")
+    @ResponseStatus(HttpStatus.OK)
+    public OrderResponse getOrderById(@PathVariable Long orderId) {
+        Order order = orderService.getOrderById(orderId);
+        return new OrderResponse(
+                order.id(),
+                order.customerId(),
+                order.orderLines()
+                        .stream()
+                        .map(orderLine -> new OrderLineResponse(
+                                        new ItemResponse(
+                                                orderLine.item().name(),
+                                                orderLine.item().price()
+                                        ),
+                                        orderLine.quantity()
+                                )
+                        ).toList(),
+                order.status()
+        );
     }
 
     @ExceptionHandler(InvalidOrderException.class)
