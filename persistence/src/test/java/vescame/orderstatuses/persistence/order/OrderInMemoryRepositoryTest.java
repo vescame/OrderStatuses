@@ -15,7 +15,6 @@ class OrderInMemoryRepositoryTest {
     private final HashMapLongRawStorage<OrderEntity> storage = mock(HashMapLongRawStorage.class);
     private final OrderInMemoryRepository repository = new OrderInMemoryRepository(storage);
 
-
     @Test
     public void shouldGetOrder() {
         var orderId = 1L;

@@ -1,7 +1,5 @@
 package vescame.orderstatuses.persistence.order;
 
-import vescame.orderstatuses.entity.customer.Customer;
-import vescame.orderstatuses.entity.order.OrderLine;
 import vescame.orderstatuses.entity.order.OrderStatus;
 import vescame.orderstatuses.persistence.storage.map.LongPersistableEntity;
 import java.time.LocalDateTime;
@@ -11,16 +9,40 @@ import java.util.Collections;
 public class OrderEntity implements LongPersistableEntity {
 
     private Long id;
-    private Customer customer;
-    private Collection<OrderLine> orderLines;
+    private Long customerId;
+    private Collection<Long> orderLineIds;
     private final OrderStatus status;
     private final LocalDateTime createDate;
     private final LocalDateTime updateDate;
 
     public OrderEntity(Long id, OrderStatus status, LocalDateTime createDate) {
         this.id = id;
-        this.customer = null;
-        this.orderLines = Collections.emptyList();
+        this.customerId = null;
+        this.orderLineIds = Collections.emptyList();
+        this.status = status;
+        this.createDate = createDate;
+        this.updateDate = LocalDateTime.now();
+    }
+
+    public OrderEntity(Long id, Long customerId, OrderStatus status, LocalDateTime createDate) {
+        this.id = id;
+        this.customerId = customerId;
+        this.orderLineIds = Collections.emptyList();
+        this.status = status;
+        this.createDate = createDate;
+        this.updateDate = LocalDateTime.now();
+    }
+
+    public OrderEntity(
+            Long id,
+            Long customerId,
+            Collection<Long> orderLineIds,
+            OrderStatus status,
+            LocalDateTime createDate
+    ) {
+        this.id = id;
+        this.customerId = customerId;
+        this.orderLineIds = orderLineIds;
         this.status = status;
         this.createDate = createDate;
         this.updateDate = LocalDateTime.now();
@@ -36,21 +58,20 @@ public class OrderEntity implements LongPersistableEntity {
         this.id = id;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomer(Long customerId) {
+        this.customerId = customerId;
     }
 
-    public Collection<OrderLine> getOrderLines() {
-        return orderLines;
+    public Collection<Long> getOrderLines() {
+        return orderLineIds;
     }
 
-    public void setOrderLines(Collection<OrderLine> orderLines) {
-
-        this.orderLines = orderLines;
+    public void setOrderLines(Collection<Long> orderLineIds) {
+        this.orderLineIds = orderLineIds;
     }
 
     public OrderStatus getStatus() {
