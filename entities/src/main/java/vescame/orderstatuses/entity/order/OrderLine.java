@@ -9,7 +9,7 @@ public record OrderLine(
         Integer quantity
 ) {
 
-    public OrderLine(Long itemId) {
-        this(null, null, new Item(itemId), null);
+    public OrderLine(Long itemId, Integer quantity) {
+        this(null, null, new Item(itemId), quantity);
     }
 }

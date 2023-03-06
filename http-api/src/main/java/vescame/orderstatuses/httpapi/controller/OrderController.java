@@ -37,7 +37,7 @@ public class OrderController {
                 createOrderRequest.customerId(),
                 createOrderRequest.orderLines()
                         .stream()
-                        .map(orderLine -> new OrderLine(orderLine.itemId()))
+                        .map(orderLine -> new OrderLine(orderLine.itemId(), orderLine.quantity()))
                         .toList()
         );
     }
