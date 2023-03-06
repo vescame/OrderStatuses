@@ -2,11 +2,13 @@ package vescame.orderstatuses.persistence.storage.map;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 class HashMapLongRawStorageTest {
 
@@ -84,6 +86,20 @@ class HashMapLongRawStorageTest {
         var actual = STORAGE.getById(dummyId);
 
         assertNull(actual);
+    }
+
+    @Test
+    public void shouldGetAll() {
+        var dummyId = 1L;
+        var entity = new DummyEntity(dummyId);
+
+        var expected = List.of(entity);
+
+        assertDoesNotThrow(() -> STORAGE.add(entity));
+
+        var actual = STORAGE.getAll().stream().toList();
+
+        assertEquals(expected, actual);
     }
 
     @AfterEach

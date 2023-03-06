@@ -68,7 +68,9 @@ public class OrderController {
                         .stream()
                         .map(orderLine -> new OrderLineResponse(
                                         new ItemResponse(
+                                                orderLine.item().id(),
                                                 orderLine.item().name(),
+                                                orderLine.item().details(),
                                                 orderLine.item().price()
                                         ),
                                         orderLine.quantity()
