@@ -2,6 +2,7 @@ package vescame.orderstatuses.httpapi.controller;
 
 import org.junit.jupiter.api.Test;
 import vescame.orderstatuses.entity.order.OrderStatus;
+import vescame.orderstatuses.httpapi.order.UpdateOrderStatusRequest;
 import vescame.orderstatuses.usecases.service.OrderService;
 import static org.mockito.Mockito.mock;
 
@@ -12,7 +13,8 @@ class OrderControllerTest {
 
     @Test
     public void updateStatusShouldNotThrow() {
-        orderController.updateOrderStatus(1L, OrderStatus.CONFIRMED);
+        var status = new UpdateOrderStatusRequest(OrderStatus.CONFIRMED);
+        orderController.updateOrderStatus(1L, status);
     }
 
 }

@@ -1,0 +1,67 @@
+package vescame.orderstatuses.persistence.order;
+
+import vescame.orderstatuses.entity.customer.Customer;
+import vescame.orderstatuses.entity.order.OrderLine;
+import vescame.orderstatuses.entity.order.OrderStatus;
+import vescame.orderstatuses.persistence.storage.map.LongPersistableEntity;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+
+public class OrderEntity implements LongPersistableEntity {
+
+    private Long id;
+    private Customer customer;
+    private Collection<OrderLine> orderLines;
+    private final OrderStatus status;
+    private final LocalDateTime createDate;
+    private final LocalDateTime updateDate;
+
+    public OrderEntity(Long id, OrderStatus status, LocalDateTime createDate) {
+        this.id = id;
+        this.customer = null;
+        this.orderLines = Collections.emptyList();
+        this.status = status;
+        this.createDate = createDate;
+        this.updateDate = LocalDateTime.now();
+    }
+
+    @Override
+    public Long getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Collection<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(Collection<OrderLine> orderLines) {
+
+        this.orderLines = orderLines;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public LocalDateTime getUpdateDate() {
+        return updateDate;
+    }
+}
