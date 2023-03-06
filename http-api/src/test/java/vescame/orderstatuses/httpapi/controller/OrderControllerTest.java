@@ -2,8 +2,12 @@ package vescame.orderstatuses.httpapi.controller;
 
 import org.junit.jupiter.api.Test;
 import vescame.orderstatuses.entity.order.OrderStatus;
-import vescame.orderstatuses.httpapi.order.UpdateOrderStatusRequest;
+import vescame.orderstatuses.httpapi.order.request.UpdateOrderStatusRequest;
+import vescame.orderstatuses.httpapi.order.request.CreateOrderLineRequest;
+import vescame.orderstatuses.httpapi.order.request.CreateOrderRequest;
 import vescame.orderstatuses.usecases.service.OrderService;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 
 class OrderControllerTest {
@@ -14,7 +18,7 @@ class OrderControllerTest {
     @Test
     public void updateStatusShouldNotThrow() {
         var status = new UpdateOrderStatusRequest(OrderStatus.CONFIRMED);
-        orderController.updateOrderStatus(1L, status);
+        assertDoesNotThrow(() -> orderController.updateOrderStatus(1L, status));
     }
 
 }
