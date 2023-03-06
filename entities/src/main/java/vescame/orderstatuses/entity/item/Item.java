@@ -7,4 +7,9 @@ public record Item(
         String name,
         String details,
         BigDecimal price
-) { /* empty */ }
+) {
+
+    public Item(Long id) {
+        this(id, null, null, null);
+    }
+}
