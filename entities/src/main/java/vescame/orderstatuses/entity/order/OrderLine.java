@@ -7,4 +7,9 @@ public record OrderLine(
         Order order,
         Item item,
         Integer quantity
-) { /* empty */ }
+) {
+
+    public OrderLine(Long itemId) {
+        this(null, null, new Item(itemId), null);
+    }
+}

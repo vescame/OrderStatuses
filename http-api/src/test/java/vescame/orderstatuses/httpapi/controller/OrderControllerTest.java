@@ -21,4 +21,16 @@ class OrderControllerTest {
         assertDoesNotThrow(() -> orderController.updateOrderStatus(1L, status));
     }
 
+    @Test
+    public void createOrder() {
+        var orderRequest = new CreateOrderRequest(
+                1L,
+                List.of(
+                        new CreateOrderLineRequest(1L, 4),
+                        new CreateOrderLineRequest(10L, 1)
+                )
+        );
+
+        assertDoesNotThrow(() -> orderController.createOrder(orderRequest));
+    }
 }
