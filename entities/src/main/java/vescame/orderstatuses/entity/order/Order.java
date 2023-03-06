@@ -12,4 +12,9 @@ public record Order(
         OrderStatus status,
         LocalDateTime createDate,
         LocalDateTime updateDate
-) { /* empty */ }
+) {
+
+    public Order(Long customerId, Collection<OrderLine> orderLines) {
+        this(null, customerId, orderLines, null, null, null, null);
+    }
+}
