@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import vescame.orderstatuses.entity.order.OrderLine;
 import vescame.orderstatuses.httpapi.order.request.UpdateOrderStatusRequest;
 import vescame.orderstatuses.httpapi.order.request.CreateOrderRequest;
+import vescame.orderstatuses.usecases.item.exception.InvalidItemException;
 import vescame.orderstatuses.usecases.order.exception.InvalidOrderException;
 import vescame.orderstatuses.usecases.service.OrderService;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -49,7 +50,12 @@ public class OrderController {
     }
 
     @ExceptionHandler(InvalidOrderException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidAccountId(InvalidOrderException ex, WebRequest web) {
+    public ResponseEntity<ErrorResponse> handleInvalidOrderId(InvalidOrderException ex, WebRequest web) {
+        return new ResponseEntity<>(ErrorResponse.create(ex, NOT_FOUND, ex.getMessage()), NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidItemException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidItemId(InvalidItemException ex, WebRequest web) {
         return new ResponseEntity<>(ErrorResponse.create(ex, NOT_FOUND, ex.getMessage()), NOT_FOUND);
     }
 }
