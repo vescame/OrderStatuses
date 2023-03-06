@@ -1,9 +1,13 @@
 package vescame.orderstatuses.persistence.storage.map;
 
+import org.springframework.stereotype.Component;
 import vescame.orderstatuses.persistence.storage.PersistableRawStorage;
+
+import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
 public class HashMapLongRawStorage<T extends LongPersistableEntity> implements PersistableRawStorage<Long, T> {
 
     private final Map<Long, T> STORAGE;
@@ -18,11 +22,14 @@ public class HashMapLongRawStorage<T extends LongPersistableEntity> implements P
     }
 
     @Override
-    public void add(T entity) {
+    public T add(T entity) {
+        entity.setId(getNextId());
+
         if (exists(entity))
             throw new IllegalArgumentException(String.format("entity (%d) already exists in the storage", entity.getId()));
 
         STORAGE.put(entity.getId(), entity);
+        return entity;
     }
 
     @Override
@@ -42,5 +49,16 @@ public class HashMapLongRawStorage<T extends LongPersistableEntity> implements P
 
     private boolean exists(T entity) {
         return STORAGE.containsKey(entity.getId());
+    }
+
+    private Long getNextId() {
+        synchronized (STORAGE) {
+            if (STORAGE.isEmpty()) return 1L;
+
+            return STORAGE.keySet()
+                    .stream()
+                    .max(Comparator.naturalOrder())
+                    .get() + 1;
+        }
     }
 }

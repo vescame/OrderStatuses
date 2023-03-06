@@ -6,11 +6,13 @@ import vescame.orderstatuses.entity.order.OrderLine;
 import vescame.orderstatuses.entity.order.OrderStatus;
 import vescame.orderstatuses.usecases.item.ItemValidator;
 import vescame.orderstatuses.usecases.item.exception.InvalidItemException;
+import vescame.orderstatuses.usecases.notification.Notifier;
 import vescame.orderstatuses.usecases.order.persistence.OrderRepository;
 import vescame.orderstatuses.usecases.order.OrderValidator;
 import vescame.orderstatuses.usecases.order.exception.InvalidOrderException;
 import vescame.orderstatuses.usecases.service.OrderService;
 import java.util.Collection;
+import static vescame.orderstatuses.entity.order.OrderStatus.PLACED;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -18,15 +20,18 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderValidator orderValidator;
     private final ItemValidator itemValidator;
+    private final Notifier notifier;
 
     public OrderServiceImpl(
             OrderRepository orderRepository,
             OrderValidator orderValidator,
-            ItemValidator itemValidator
+            ItemValidator itemValidator,
+            Notifier notifier
     ) {
         this.orderRepository = orderRepository;
         this.orderValidator = orderValidator;
         this.itemValidator = itemValidator;
+        this.notifier = notifier;
     }
 
     @Override
@@ -35,11 +40,13 @@ public class OrderServiceImpl implements OrderService {
             throw new InvalidOrderException(orderId);
         }
 
-       orderRepository.updateOrderStatus(orderId, orderStatus);
+        orderRepository.updateOrderStatus(orderId, orderStatus);
+
+        notifier.batchNotify(orderId, orderStatus);
     }
 
     @Override
-    public void createNewOrder(Long customerId, Collection<OrderLine> orderLines) {
+    public Long createNewOrder(Long customerId, Collection<OrderLine> orderLines) {
         for (OrderLine orderLine : orderLines) {
             Long itemId = orderLine.item().id();
             if (!itemValidator.isItemValid(itemId)) {
@@ -47,6 +54,15 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        orderRepository.createOrder(new Order(customerId, orderLines));
+        return orderRepository.createOrder(new Order(customerId, orderLines, PLACED)).id();
+    }
+
+    @Override
+    public Order getOrderById(Long orderId) {
+        if (!orderValidator.isOrderValid(orderId)) {
+            throw new InvalidOrderException(orderId);
+        }
+
+        return orderRepository.getOrderById(orderId);
     }
 }

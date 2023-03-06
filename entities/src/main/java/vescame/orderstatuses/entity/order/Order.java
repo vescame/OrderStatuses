@@ -14,7 +14,11 @@ public record Order(
         LocalDateTime updateDate
 ) {
 
-    public Order(Long customerId, Collection<OrderLine> orderLines) {
-        this(null, customerId, orderLines, null, null, null, null);
+    public Order(Long customerId, Collection<OrderLine> orderLines, OrderStatus status) {
+        this(null, customerId, orderLines, null, status, null, null);
+    }
+
+    public Order(Long id, Long customerId, Collection<OrderLine> orderLines, OrderStatus status) {
+        this(id, customerId, orderLines, null, status, null, null);
     }
 }

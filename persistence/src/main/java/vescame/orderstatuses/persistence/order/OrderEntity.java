@@ -1,5 +1,6 @@
 package vescame.orderstatuses.persistence.order;
 
+import vescame.orderstatuses.entity.order.OrderLine;
 import vescame.orderstatuses.entity.order.OrderStatus;
 import vescame.orderstatuses.persistence.storage.map.LongPersistableEntity;
 import java.time.LocalDateTime;
@@ -10,39 +11,29 @@ public class OrderEntity implements LongPersistableEntity {
 
     private Long id;
     private Long customerId;
-    private Collection<Long> orderLineIds;
+    private Collection<OrderLine> orderLines;
     private final OrderStatus status;
     private final LocalDateTime createDate;
     private final LocalDateTime updateDate;
 
-    public OrderEntity(Long id, OrderStatus status, LocalDateTime createDate) {
-        this.id = id;
-        this.customerId = null;
-        this.orderLineIds = Collections.emptyList();
-        this.status = status;
-        this.createDate = createDate;
-        this.updateDate = LocalDateTime.now();
-    }
-
     public OrderEntity(Long id, Long customerId, OrderStatus status, LocalDateTime createDate) {
         this.id = id;
         this.customerId = customerId;
-        this.orderLineIds = Collections.emptyList();
+        this.orderLines = Collections.emptyList();
         this.status = status;
         this.createDate = createDate;
         this.updateDate = LocalDateTime.now();
     }
 
     public OrderEntity(
-            Long id,
             Long customerId,
-            Collection<Long> orderLineIds,
+            Collection<OrderLine> orderLines,
             OrderStatus status,
             LocalDateTime createDate
     ) {
-        this.id = id;
+        this.id = null;
         this.customerId = customerId;
-        this.orderLineIds = orderLineIds;
+        this.orderLines = orderLines;
         this.status = status;
         this.createDate = createDate;
         this.updateDate = LocalDateTime.now();
@@ -66,12 +57,12 @@ public class OrderEntity implements LongPersistableEntity {
         this.customerId = customerId;
     }
 
-    public Collection<Long> getOrderLines() {
-        return orderLineIds;
+    public Collection<OrderLine> getOrderLines() {
+        return orderLines;
     }
 
-    public void setOrderLines(Collection<Long> orderLineIds) {
-        this.orderLineIds = orderLineIds;
+    public void setOrderLines(Collection<OrderLine> orderLines) {
+        this.orderLines = orderLines;
     }
 
     public OrderStatus getStatus() {
