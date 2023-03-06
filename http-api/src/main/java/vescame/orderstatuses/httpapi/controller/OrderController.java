@@ -18,6 +18,7 @@ import vescame.orderstatuses.entity.order.OrderLine;
 import vescame.orderstatuses.httpapi.item.ItemResponse;
 import vescame.orderstatuses.httpapi.order.request.UpdateOrderStatusRequest;
 import vescame.orderstatuses.httpapi.order.request.CreateOrderRequest;
+import vescame.orderstatuses.httpapi.order.response.CreateOrderResponse;
 import vescame.orderstatuses.httpapi.order.response.OrderLineResponse;
 import vescame.orderstatuses.httpapi.order.response.OrderResponse;
 import vescame.orderstatuses.usecases.item.exception.InvalidItemException;
@@ -38,7 +39,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Long> createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
+    public CreateOrderResponse createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
         var orderId = orderService.createNewOrder(
                 createOrderRequest.customerId(),
                 createOrderRequest.orderLines()
@@ -47,7 +48,7 @@ public class OrderController {
                         .toList()
         );
 
-        return ResponseEntity.ok(orderId);
+        return new CreateOrderResponse(orderId);
     }
 
     @PutMapping("/{orderId}/status")
