@@ -3,6 +3,7 @@ package vescame.orderstatuses.persistence.storage.map;
 import org.springframework.stereotype.Component;
 import vescame.orderstatuses.persistence.storage.PersistableRawStorage;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,6 +20,11 @@ public class HashMapLongRawStorage<T extends LongPersistableEntity> implements P
     @Override
     public T getById(Long id) {
         return STORAGE.get(id);
+    }
+
+    @Override
+    public Collection<T> getAll() {
+        return STORAGE.values();
     }
 
     @Override

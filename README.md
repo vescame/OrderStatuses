@@ -12,6 +12,10 @@ The customer updates it's orders status by sending it to our endpoint
 ```
 
 ## Endpoints
+### List items endpoint
+```shell
+curl -X GET http://localhost:8080/items
+```
 ### Create new order
 ```shell
 curl -X POST -H 'Content-Type: application/json' localhost:8080/orders -d \
