@@ -77,7 +77,8 @@ public class OrderController {
                                         orderLine.quantity()
                                 )
                         ).toList(),
-                order.status()
+                order.status(),
+                order.orderTotalAmount()
         );
     }
 

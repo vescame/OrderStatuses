@@ -5,7 +5,6 @@ import vescame.orderstatuses.entity.order.OrderStatus;
 import vescame.orderstatuses.persistence.storage.map.LongPersistableEntity;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
 
 public class OrderEntity implements LongPersistableEntity {
 
@@ -16,10 +15,10 @@ public class OrderEntity implements LongPersistableEntity {
     private final LocalDateTime createDate;
     private final LocalDateTime updateDate;
 
-    public OrderEntity(Long id, Long customerId, OrderStatus status, LocalDateTime createDate) {
+    public OrderEntity(Long id, Long customerId, Collection<OrderLine> orderLines, OrderStatus status, LocalDateTime createDate) {
         this.id = id;
         this.customerId = customerId;
-        this.orderLines = Collections.emptyList();
+        this.orderLines = orderLines;
         this.status = status;
         this.createDate = createDate;
         this.updateDate = LocalDateTime.now();

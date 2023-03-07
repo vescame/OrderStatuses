@@ -44,6 +44,7 @@ class OrderServiceImplTest {
 
         verify(orderValidator, times(1)).isOrderValid(orderId);
         verify(repository, times(1)).updateOrderStatus(orderId, status);
+        verify(notifier, times(1)).batchNotify(orderId, PLACED);
     }
 
     @Test

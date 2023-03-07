@@ -51,6 +51,7 @@ public class OrderInMemoryRepository implements OrderRepository {
         var updatedEntity = new OrderEntity(
                 entity.getId(),
                 entity.getCustomerId(),
+                entity.getOrderLines(),
                 status,
                 entity.getCreateDate()
         );
@@ -74,7 +75,7 @@ public class OrderInMemoryRepository implements OrderRepository {
 
     @Override
     public boolean existsOrderById(Long orderId) {
-        return getOrderById(orderId) != null;
+        return STORAGE.getById(orderId) != null;
     }
 
     private Order convertOrder(OrderEntity entity) {
