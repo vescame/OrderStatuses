@@ -37,6 +37,7 @@ class OrderInMemoryRepositoryTest {
         var entity = new OrderEntity(
                 orderId,
                 customerId,
+                Collections.emptyList(),
                 PLACED,
                 now()
         );
@@ -78,6 +79,7 @@ class OrderInMemoryRepositoryTest {
         var entity = new OrderEntity(
                 orderId,
                 customerId,
+                Collections.emptyList(),
                 PLACED,
                 createDate
         );

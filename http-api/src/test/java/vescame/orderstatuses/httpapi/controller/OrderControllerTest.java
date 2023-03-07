@@ -60,7 +60,8 @@ class OrderControllerTest {
                 orderId,
                 customerId,
                 emptyList(),
-                OrderStatus.PLACED
+                OrderStatus.PLACED,
+                BigDecimal.ONE
         );
 
         when(orderService.getOrderById(orderId)).thenReturn(order);
