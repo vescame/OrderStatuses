@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version Dependency.Version.springBootPlugin
+    id("org.springframework.boot") version Dependency.Version.springBoot
 }
 
 springBoot {

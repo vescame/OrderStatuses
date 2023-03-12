@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateStatus(Long orderId, OrderStatus orderStatus) {
+    public void updateStatus(Long orderId, OrderStatus orderStatus) throws InvalidOrderException {
         if (!orderValidator.isOrderValid(orderId)) {
             throw new InvalidOrderException(orderId);
         }
@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Long createNewOrder(Long customerId, Collection<OrderLine> orderLines) {
+    public Long createNewOrder(Long customerId, Collection<OrderLine> orderLines) throws InvalidItemException {
         for (OrderLine orderLine : orderLines) {
             Long itemId = orderLine.item().id();
             if (!itemValidator.isItemValid(itemId)) {
@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrderById(Long orderId) {
+    public Order getOrderById(Long orderId) throws InvalidOrderException {
         if (!orderValidator.isOrderValid(orderId)) {
             throw new InvalidOrderException(orderId);
         }
