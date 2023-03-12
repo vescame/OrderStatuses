@@ -34,7 +34,9 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateOrderResponse createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest) throws InvalidOrderException, InvalidItemException {
+    public CreateOrderResponse createOrder(
+            @RequestBody @Valid CreateOrderRequest createOrderRequest
+    ) throws InvalidOrderException, InvalidItemException {
         var orderId = orderService.createNewOrder(
                 createOrderRequest.customerId(),
                 createOrderRequest.orderLines()
@@ -48,7 +50,10 @@ public class OrderController {
 
     @PutMapping("/{orderId}/status")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateOrderStatus(@PathVariable Long orderId, @RequestBody UpdateOrderStatusRequest orderStatus) throws InvalidOrderException {
+    public void updateOrderStatus(
+            @PathVariable Long orderId,
+            @Valid @RequestBody UpdateOrderStatusRequest orderStatus
+    ) throws InvalidOrderException {
         orderService.updateStatus(orderId, orderStatus.status());
     }
 
