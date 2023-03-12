@@ -1,7 +1,6 @@
 package vescame.orderstatuses.httpapi.order.response;
 
 import vescame.orderstatuses.entity.order.OrderStatus;
-
 import java.math.BigDecimal;
 import java.util.Collection;
 
