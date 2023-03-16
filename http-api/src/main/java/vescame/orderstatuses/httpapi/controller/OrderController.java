@@ -39,7 +39,9 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateOrderResponse createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
+    public CreateOrderResponse createOrder(
+            @RequestBody CreateOrderRequest createOrderRequest
+    ) {
         var orderId = orderService.createNewOrder(
                 createOrderRequest.customerId(),
                 createOrderRequest.orderLines()
@@ -83,12 +85,12 @@ public class OrderController {
     }
 
     @ExceptionHandler(InvalidOrderException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidOrderId(InvalidOrderException ex, WebRequest web) {
+    public ResponseEntity<ErrorResponse> handleInvalidOrderId(InvalidOrderException ex) {
         return new ResponseEntity<>(ErrorResponse.create(ex, NOT_FOUND, ex.getMessage()), NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidItemException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidItemId(InvalidItemException ex, WebRequest web) {
+    public ResponseEntity<ErrorResponse> handleInvalidItemId(InvalidItemException ex) {
         return new ResponseEntity<>(ErrorResponse.create(ex, NOT_FOUND, ex.getMessage()), NOT_FOUND);
     }
 }

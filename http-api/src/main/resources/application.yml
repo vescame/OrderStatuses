@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+jwt:
+  auth:
+    issuer: orderstatus.vescame.dev
+    secret: 8db0e83b325cb3d37cb5e6fbd920ad2e5d988ddd81101f71847641e604f60b61
+    accessToken:
+      duration: 3600s
+    admin:
+      username: admin
+      password: password
