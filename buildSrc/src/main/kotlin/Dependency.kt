@@ -13,6 +13,8 @@ object Dependency {
     const val springBootStarter = "org.springframework.boot:spring-boot-starter:$springBoot"
     const val springBootWeb = "org.springframework.boot:spring-boot-starter-web:$springBoot"
     const val springBootValidation = "org.springframework.boot:spring-boot-starter-validation:$springBoot"
+    const val springBootSecurity = "org.springframework.boot:spring-boot-starter-security:$springBoot"
+    const val springBootSecurityResourceServer = "org.springframework.boot:spring-boot-starter-oauth2-resource-server:$springBoot"
 
     // test dependencies
     const val springBootStarterTest = "org.springframework.boot:spring-boot-starter-test:$springBoot"
