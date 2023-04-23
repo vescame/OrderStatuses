@@ -12,6 +12,15 @@ The customer updates it's orders status by sending it to our endpoint
 ```
 
 ## Endpoints
+## Authentication
+```shell
+curl -X POST -H 'Content-Type: application/json' http://localhost:8080/token -d \
+'{
+    "username": "admin",
+    "password": "password"
+}'
+```
+
 ### List items endpoint
 ```shell
 curl -X GET -H 'Content-Type: application/json' http://localhost:8080/items
