@@ -1,4 +1,4 @@
-package vescame.orderstatuses.usecases.service;
+package vescame.orderstatuses.usecases.order;
 
 import vescame.orderstatuses.entity.order.Order;
 import vescame.orderstatuses.entity.order.OrderLine;

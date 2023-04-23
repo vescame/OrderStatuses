@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vescame.orderstatuses.httpapi.item.ItemResponse;
-import vescame.orderstatuses.usecases.service.ItemService;
+import vescame.orderstatuses.usecases.item.ItemService;
 
 import java.util.Collection;
 

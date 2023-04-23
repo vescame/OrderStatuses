@@ -1,4 +1,4 @@
-package vescame.orderstatuses.usecases.service.Impl;
+package vescame.orderstatuses.usecases.order.impl;
 
 import org.springframework.stereotype.Service;
 import vescame.orderstatuses.entity.order.Order;
@@ -10,7 +10,7 @@ import vescame.orderstatuses.usecases.notification.Notifier;
 import vescame.orderstatuses.usecases.order.persistence.OrderRepository;
 import vescame.orderstatuses.usecases.order.OrderValidator;
 import vescame.orderstatuses.usecases.order.exception.InvalidOrderException;
-import vescame.orderstatuses.usecases.service.OrderService;
+import vescame.orderstatuses.usecases.order.OrderService;
 import java.util.Collection;
 import static vescame.orderstatuses.entity.order.OrderStatus.PLACED;
 

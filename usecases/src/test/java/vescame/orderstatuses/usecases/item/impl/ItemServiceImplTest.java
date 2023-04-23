@@ -1,8 +1,9 @@
-package vescame.orderstatuses.usecases.service.Impl;
+package vescame.orderstatuses.usecases.item.impl;
 
 
 import org.junit.jupiter.api.Test;
 import vescame.orderstatuses.entity.item.Item;
+import vescame.orderstatuses.usecases.item.ItemServiceImpl;
 import vescame.orderstatuses.usecases.item.persistence.ItemRepository;
 import java.math.BigDecimal;
 import java.util.List;

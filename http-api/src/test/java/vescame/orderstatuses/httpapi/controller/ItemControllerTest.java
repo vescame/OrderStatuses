@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import vescame.orderstatuses.entity.item.Item;
 import vescame.orderstatuses.httpapi.item.ItemResponse;
-import vescame.orderstatuses.usecases.service.ItemService;
+import vescame.orderstatuses.usecases.item.ItemService;
 
 import java.math.BigDecimal;
 import java.util.List;
