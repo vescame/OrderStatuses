@@ -13,7 +13,7 @@ import vescame.orderstatuses.httpapi.security.request.AccessTokenRequest;
 import vescame.orderstatuses.httpapi.security.token.BearerToken;
 
 @RestController
-@RequestMapping("/oauth")
+@RequestMapping("/token")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;

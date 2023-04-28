@@ -4,7 +4,6 @@ import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.OctetSequenceKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.JWSKeySelector;
 import com.nimbusds.jose.proc.JWSVerificationKeySelector;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
@@ -23,7 +21,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import vescame.orderstatuses.httpapi.security.jwt.JWTSecurityConfiguration;
 import vescame.orderstatuses.httpapi.security.jwt.encoder.AccessTokenJwtEncoder;
 import vescame.orderstatuses.httpapi.security.jwt.decoder.AccessTokenJwtDecoder;
-import javax.crypto.spec.SecretKeySpec;
 import static com.nimbusds.jose.JWSAlgorithm.HS512;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -58,7 +55,6 @@ public class SecurityConfiguration {
                 .requestMatchers(GET, "/orders/**", "/items").hasAuthority(READ.name())
                 .requestMatchers(POST, "/orders").hasAuthority(WRITE.name())
                 .requestMatchers(PUT, "/orders/**").hasAuthority(WRITE.name())
-                .requestMatchers(POST, "/oauth", "/oauth/**").permitAll()
                 .requestMatchers(GET, "/**").permitAll()
                 .anyRequest()
                 .permitAll()
@@ -79,16 +75,6 @@ public class SecurityConfiguration {
     @Bean
     AccessTokenJwtEncoder accessTokenEncoder(JWKSource<SecurityContext> jwkSource) {
         return new AccessTokenJwtEncoder(new NimbusJwtEncoder(jwkSource));
-    }
-
-    @Bean
-    AccessTokenJwtDecoder accessTokenDecoder(SecretKeySpec secretKey, JWSKeySelector<SecurityContext> keySelector) {
-        return new AccessTokenJwtDecoder(
-                NimbusJwtDecoder
-                        .withSecretKey(secretKey)
-                        .jwtProcessorCustomizer(processor -> processor.setJWSKeySelector(keySelector))
-                        .build()
-        );
     }
 
     @Bean
