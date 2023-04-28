@@ -1,4 +1,4 @@
-package vescame.orderstatuses.usecases.service;
+package vescame.orderstatuses.usecases.item;
 
 import vescame.orderstatuses.entity.item.Item;
 import java.util.Collection;

@@ -20,7 +20,7 @@ import vescame.orderstatuses.httpapi.order.response.OrderLineResponse;
 import vescame.orderstatuses.httpapi.order.response.OrderResponse;
 import vescame.orderstatuses.usecases.item.exception.InvalidItemException;
 import vescame.orderstatuses.usecases.order.exception.InvalidOrderException;
-import vescame.orderstatuses.usecases.service.OrderService;
+import vescame.orderstatuses.usecases.order.OrderService;
 
 @RestController
 @RequestMapping("/orders")

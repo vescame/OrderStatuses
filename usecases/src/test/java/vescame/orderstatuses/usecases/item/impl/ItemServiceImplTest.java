@@ -1,4 +1,4 @@
-package vescame.orderstatuses.usecases.service.Impl;
+package vescame.orderstatuses.usecases.item.impl;
 
 
 import org.junit.jupiter.api.Test;

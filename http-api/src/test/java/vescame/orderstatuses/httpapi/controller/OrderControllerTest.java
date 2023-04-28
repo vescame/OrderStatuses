@@ -7,7 +7,7 @@ import vescame.orderstatuses.httpapi.order.request.UpdateOrderStatusRequest;
 import vescame.orderstatuses.httpapi.order.request.CreateOrderLineRequest;
 import vescame.orderstatuses.httpapi.order.request.CreateOrderRequest;
 import vescame.orderstatuses.httpapi.order.response.OrderResponse;
-import vescame.orderstatuses.usecases.service.OrderService;
+import vescame.orderstatuses.usecases.order.OrderService;
 import java.math.BigDecimal;
 import java.util.List;
 import static java.time.LocalDateTime.now;
