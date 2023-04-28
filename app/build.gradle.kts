@@ -10,6 +10,7 @@ dependencies {
     implementation(project(":entities"))
     implementation(project(":usecases"))
     implementation(project(":persistence"))
+    implementation(project(":in-memory-persistence"))
     implementation(project(":http-api"))
     implementation(project(":integration"))
 }

@@ -1,9 +1,9 @@
 package vescame.orderstatuses.persistence.order;
 
 import vescame.orderstatuses.entity.item.Item;
-import vescame.orderstatuses.persistence.storage.map.LongPersistableEntity;
+import vescame.orderstatuses.persistence.PersistableEntity;
 
-public class OrderLineEntity implements LongPersistableEntity {
+public class OrderLineEntity implements PersistableEntity<Long> {
     private Long id;
     private Item item;
     private Integer quantity;
