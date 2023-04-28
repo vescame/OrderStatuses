@@ -4,7 +4,7 @@ import Dependency.Version.springBoot
 object Dependency {
     object Version {
         const val kotlin = "1.7.20"
-        const val springBoot = "3.0.0"
+        const val springBoot = "3.0.6"
         const val springDependencyManagementPlugin = "1.1.0"
         const val jupiterApi = "5.9.0"
     }
