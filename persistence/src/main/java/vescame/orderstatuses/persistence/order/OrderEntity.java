@@ -2,11 +2,12 @@ package vescame.orderstatuses.persistence.order;
 
 import vescame.orderstatuses.entity.order.OrderLine;
 import vescame.orderstatuses.entity.order.OrderStatus;
-import vescame.orderstatuses.persistence.storage.map.LongPersistableEntity;
+import vescame.orderstatuses.persistence.PersistableEntity;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-public class OrderEntity implements LongPersistableEntity {
+public class OrderEntity implements PersistableEntity<Long> {
 
     private Long id;
     private Long customerId;

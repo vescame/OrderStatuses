@@ -1,10 +1,9 @@
 package vescame.orderstatuses.persistence.item;
 
-import vescame.orderstatuses.persistence.storage.map.LongPersistableEntity;
-
+import vescame.orderstatuses.persistence.PersistableEntity;
 import java.math.BigDecimal;
 
-public class ItemEntity implements LongPersistableEntity {
+public class ItemEntity implements PersistableEntity<Long> {
     Long id;
     String name;
     String details;

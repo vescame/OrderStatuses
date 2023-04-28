@@ -1,3 +1,3 @@
 dependencies {
-    implementation(project(":usecases"))
+    api(project(":usecases"))
 }
