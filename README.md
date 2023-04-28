@@ -12,13 +12,24 @@ The customer updates it's orders status by sending it to our endpoint
 ```
 
 ## Endpoints
+
+### Authentication endpoint
+```shell
+curl -X POST -H 'Content-Type: application/json' localhost:8080/oauth -d \
+'{
+    "username": "admin",
+    "password": "password"
+}'
+```
+
 ### List items endpoint
 ```shell
-curl -X GET -H 'Content-Type: application/json' http://localhost:8080/items
+curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer $token' http://localhost:8080/items
 ```
+
 ### Create new order
 ```shell
-curl -X POST -H 'Content-Type: application/json' localhost:8080/orders -d \
+curl -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer $token' localhost:8080/orders -d \
 '{
     "customerId": 1,
     "orderLines": [
@@ -29,14 +40,16 @@ curl -X POST -H 'Content-Type: application/json' localhost:8080/orders -d \
     ]
 }'
 ```
+
 ### Get existing order
 ```shell
-curl -X GET -H 'Content-Type: application/json' localhost:8080/orders/1
+curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer $token' localhost:8080/orders/1
 ```
 
 ### Update existing order status
 ```shell
-curl -X PUT -H 'Content-Type: application/json' localhost:8080/orders/1/status -d \
+# order status options: PLACED, CONFIRMED, SHIPPED and DELIVERED
+curl -X PUT -H 'Content-Type: application/json' -H 'Authorization: Bearer $token' localhost:8080/orders/1/status -d \
 '{
     "status": "CONFIRMED"
 }'
